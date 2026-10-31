@@ -272,7 +272,7 @@ if (!File.Exists(output) || File.ReadAllText(output) != stamp) File.WriteAllText
 ]]></Code>
     </Task>
   </UsingTask>
-  <Target Name="WwmiBuildStamp" BeforeTargets="ClCompile;ResourceCompile">
+  <Target Name="WwmiBuildStamp" BeforeTargets="ClCompile;ResourceCompile" Condition="'$(WwmiStampWritten)' != 'true'">
     <WwmiWriteBuildStamp Root="$(WwmiRoot)" />
   </Target>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

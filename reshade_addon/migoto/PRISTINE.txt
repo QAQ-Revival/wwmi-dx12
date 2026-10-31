@@ -16,6 +16,7 @@ DirectX11\HookedDevice.h
 DirectX11\HookedDXGI.h
 DirectX11\Hunting.h
 DirectX11\IniHandler.cpp
+DirectX11\QaqrRuntime.inc
 DirectX11\IniHandler.h
 DirectX11\input.cpp
 DirectX11\input.h

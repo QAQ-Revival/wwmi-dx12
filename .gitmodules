@@ -1,6 +1,8 @@
 [submodule "third_party/3Dmigoto"]
 	path = third_party/3Dmigoto
-	url = https://github.com/SpectrumQT/3Dmigoto
+	url = https://github.com/QAQ-Revival/XXMI-Libs-Package.git
+	branch = master
 [submodule "reshade_addon/sdk"]
 	path = reshade_addon/sdk
-	url = https://github.com/crosire/reshade
+	url = https://github.com/QAQ-Revival/reshade.git
+	branch = wwmi-dx12-sdk
