@@ -327,7 +327,7 @@ if (!File.Exists(output) || File.ReadAllText(output) != stamp) File.WriteAllText
 ]]></Code>
     </Task>
   </UsingTask>
-  <Target Name="WwmiBuildStamp" BeforeTargets="ClCompile;ResourceCompile">
+  <Target Name="WwmiBuildStamp" BeforeTargets="ClCompile;ResourceCompile" Condition="'$(WwmiStampWritten)' != 'true'">
     <WwmiWriteBuildStamp Root="$(WwmiRoot)" />
   </Target>
   <UsingTask TaskName="WwmiWriteShaderPairsSeed" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
@@ -348,7 +348,7 @@ if (!File.Exists(output) || File.ReadAllText(output) != text.ToString()) File.Wr
 ]]></Code>
     </Task>
   </UsingTask>
-  <Target Name="WwmiShaderPairsSeed" BeforeTargets="ClCompile">
+  <Target Name="WwmiShaderPairsSeed" BeforeTargets="ClCompile" Condition="'$(WwmiStampWritten)' != 'true'">
     <WwmiWriteShaderPairsSeed Root="$(WwmiRoot)" />
   </Target>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

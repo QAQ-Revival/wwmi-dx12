@@ -1,0 +1,9 @@
+{
+  "upstream": "lekarsenten/wwmi-dx12",
+  "changes": [
+    "Build the engine from QAQ-Revival/XXMI-Libs-Package master, so its fixes and the mainline ones arrive here first",
+    "Take the ReShade SDK and ImGui from pinned organization branches instead of external repositories",
+    "Save through the engine's persistence journal and publish its activity channel from the add-on's frame driver"
+  ],
+  "validation": "Compiled from source; loading in the game is not checked"
+}

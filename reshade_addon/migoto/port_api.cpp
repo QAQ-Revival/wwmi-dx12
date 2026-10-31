@@ -168,7 +168,7 @@ void SaveSettingsOnExit()
     }
     std::lock_guard<std::recursive_mutex> engine_lk(EngineLock());
     logger::write("PORT-EXIT: saving persistent settings (dirty=%d)", G->user_config_dirty);
-    if (SavePersistentSettings()) SaveUnknownPersistentSettings();
+    SavePersistentSettings(); // the full save carries unknown settings in the same transaction
 }
 
 void SetFrameContext(ID3D12Device* dev, ID3D12GraphicsCommandList* cl, ID3D12CommandQueue* queue, unsigned rt_width,
@@ -291,8 +291,9 @@ static void RunConstantsOnce()
     g_constants_generation = g_generation;
 
     RunCommandList(&g_dev, &g_ctx, &G->constants_command_list, nullptr, false);
-    G->user_config_dirty = false;
+    ResetPersistentTracking();
     RunCommandList(&g_dev, &g_ctx, &G->post_constants_command_list, nullptr, true);
+    InitializeActivityChannel();
 
     logger::write("PORT: [Constants] applied (generation %u) -- persisted globals from d3dx_user.ini "
                   "are now live; hotkey toggles have a value to hold",
@@ -333,8 +334,7 @@ static void FrameDriverConfig()
 
     if (G->gConfigInitialized) {
         if (G->gTime - G->gSettingsSaveTime > G->gSettingsAutoSaveInterval)
-            if (SavePersistentSettings()) // updates gSettingsSaveTime itself
-                SaveUnknownPersistentSettings();
+            SavePersistentSettings(false, true); // appends net changes, and updates gSettingsSaveTime itself
     } else if (G->gTime > G->gConfigInitializationDelay) {
         G->gConfigInitialized = true;
         logger::write("PORT-FRAME: deferred config reload firing at gTime=%.3f (delay=%d) -- this is what "
@@ -377,6 +377,7 @@ void PresentPre()
         MigotoPort::g_present_snapshots.Begin(mode, g_generation);
     }
     RunCommandList(&g_dev, &g_ctx, &G->present_command_list, nullptr, false);
+    PublishActivityChannel();
     MigotoPort::g_present_snapshots.End();
     RunSkelCopyUpdates();
     FrameDriverConfig();
@@ -404,6 +405,7 @@ void PresentRedraw()
     MigotoPort::g_present_redraw = true;
     MigotoPort::g_present_snapshots.Begin(MigotoPort::PresentSnapshots::Mode::Replay, g_generation);
     RunCommandList(&g_dev, &g_ctx, &G->present_command_list, nullptr, false);
+    PublishActivityChannel();
     RunCommandList(&g_dev, &g_ctx, &G->post_present_command_list, nullptr, true);
     MigotoPort::g_present_snapshots.End();
     MigotoPort::g_present_redraw = false;

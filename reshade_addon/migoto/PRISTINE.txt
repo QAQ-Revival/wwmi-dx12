@@ -16,7 +16,9 @@ DirectX11\HookedDevice.h
 DirectX11\HookedDXGI.h
 DirectX11\Hunting.h
 DirectX11\IniHandler.cpp
+DirectX11\QaqrRuntime.inc
 DirectX11\IniHandler.h
+DirectX11\IniText.h
 DirectX11\input.cpp
 DirectX11\input.h
 DirectX11\lock.cpp
@@ -31,6 +33,8 @@ DirectX11\profiling.cpp
 DirectX11\profiling.h
 DirectX11\ResourceHash.cpp
 DirectX11\ResourceHash.h
+DirectX11\ResourceLoading.cpp
+DirectX11\ResourceLoading.h
 shader.h
 DirectX11\ShaderRegex.h
 util.cpp
