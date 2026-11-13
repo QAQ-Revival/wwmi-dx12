@@ -48,8 +48,15 @@ function packageFiles(version) {
     .map(([, from, to]) => ({ from: path.join(root, from), to: to.replace('$(WwmiVersion)', version).replace(/\\/g, '/') }))
     .filter(({ to }) => to === 'wwmi_dx12.addon64' || to.startsWith('wwmi_dx12/'));
 }
+// QAQR numbers its build <upstream version>.<n>, n counting QAQR's own commits on top of that upstream release.
+function qaqrVersion() {
+  const upstream = fs.readFileSync(path.join(root, 'VERSION'), 'utf8').trim();
+  let base = `v${upstream}`;
+  try { base = git(['merge-base', 'HEAD', 'refs/remotes/upstream/main']); } catch { /* no upstream remote in this checkout: the release tag */ }
+  return `${upstream}.${git(['rev-list', '--count', '--no-merges', '--author=qaq-revival-publisher', `${base}..HEAD`])}`;
+}
 function build({ output = path.join(root, 'build_addon/component'), verifyOnly = false } = {}) {
-  const version = fs.readFileSync(path.join(root, 'VERSION'), 'utf8').trim();
+  const version = qaqrVersion();
   writeBuildStamp(version);
   writeShaderPairsSeed();
   const result = spawnSync(msbuild(), ['wwmi-dx12.sln', '/t:Build', '-m', '-nologo', '-v:minimal', '/p:Configuration=Release', '/p:Platform=x64', '/p:WwmiRT=0', '/p:WwmiDeploy=false', '/p:WwmiStampWritten=true'], { cwd: root, stdio: 'inherit', windowsHide: true });
