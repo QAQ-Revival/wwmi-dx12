@@ -51,6 +51,9 @@ public:
 
     ID3D11Buffer* GetReadbackBuffer(UINT /*size*/) { return nullptr; }
 
+    // The DX11 engine hashes texture content with a D3D11 compute pass; the DX12 bridge has none, so DHash is off.
+    HRESULT ComputeDHash(ID3D11Texture2D* /*texture*/, UINT /*mipLevel*/, DXGI_FORMAT /*srvFormat*/, uint64_t& /*outHash*/) { return E_NOTIMPL; }
+
     unsigned long long mDrawPipeline = 0;
     HackerInputLayout* mOverrideInputLayout = nullptr;
 
