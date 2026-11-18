@@ -5,6 +5,7 @@
 DEFINE_GUID(IID_HackerContext,
     0xa3046b1e, 0x336b, 0x4d90, 0x9f, 0xd6, 0x23, 0x4b, 0xc0, 0x9b, 0x86, 0x87);
 #include <cstdint>
+#include "CommandList.h"
 #include "dx12_context.h" // MigotoPort::Context(): the DX11->DX12 transition layer
 
 class HackerDevice;
@@ -43,8 +44,11 @@ public:
     unsigned dispatch_number = 0;
     unsigned GetDrawNumber() const { return draw_number; }
     unsigned GetDispatchNumber() const { return dispatch_number; }
+    unsigned GetCallNumber() const { return draw_number + dispatch_number; }
+    InitialTexturesSnapshot& GetInitialTexturesSnapshot();
     void     ResetCallCounters()
     {
+        initial_textures.Clear();
         draw_number = 0;
         dispatch_number = 0;
     }
@@ -78,4 +82,7 @@ public:
     virtual void FrameAnalysisDump(ID3D11Resource* /*resource*/, FrameAnalysisOptions /*options*/,
         const wchar_t* /*target*/, DXGI_FORMAT /*format*/,
         UINT /*stride*/, UINT /*offset*/) {}
+
+private:
+    InitialTexturesSnapshot initial_textures;
 };

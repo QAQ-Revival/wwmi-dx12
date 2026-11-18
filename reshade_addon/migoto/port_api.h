@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <cstddef>
 #include <cstdio>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -11,6 +12,7 @@
 #include <vector>
 
 class FrameAnalysisContext;
+struct InitialTexturesSnapshot;
 struct ID3D11Resource;
 namespace MigotoPort {
 struct ModPipeline;
@@ -44,6 +46,9 @@ public:
         ID3D12PipelineState* (*pipeline)(void* user, const MigotoPort::ModPipeline& mp), void* user);
     DrawListScope(const DrawListScope&) = delete;
     DrawListScope& operator=(const DrawListScope&) = delete;
+private:
+    std::unique_ptr<InitialTexturesSnapshot> textures_;
+    std::unique_ptr<InitialTexturesSnapshot>* previous_textures_;
 };
 
 void PresentPre();

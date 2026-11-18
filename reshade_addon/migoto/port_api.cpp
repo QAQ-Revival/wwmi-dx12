@@ -49,6 +49,17 @@ namespace MigotoPort {
 void InitEngineGlobals();
 }
 
+// A recording thread can nest draw scopes. Each draw owns the SRVs its command
+// list snapshots, and draws which never request a snapshot allocate nothing.
+static thread_local std::unique_ptr<InitialTexturesSnapshot>* draw_textures = nullptr;
+
+InitialTexturesSnapshot& HackerContext::GetInitialTexturesSnapshot()
+{
+    if (!draw_textures) return initial_textures;
+    if (!*draw_textures) *draw_textures = std::make_unique<InitialTexturesSnapshot>();
+    return **draw_textures;
+}
+
 namespace PortApi {
 
 HackerDevice g_dev;
@@ -230,12 +241,15 @@ DrawListScope::DrawListScope(ID3D12GraphicsCommandList* cl, void (*restore_game_
     b.own_list = false; // a draw scope records onto the GAME's list -- inherit its state
     b.back_buffer = nullptr; // the present thread's, when it is mid-tick: already presented when this list runs
     MigotoPort::BridgePush(b);
+    previous_textures_ = draw_textures;
+    draw_textures = &textures_;
 }
 
 DrawListScope::~DrawListScope()
 {
     MigotoPort::FlushUavBarriers(MigotoPort::GetDx12Bridge().cl);
     MigotoPort::BridgePop();
+    draw_textures = previous_textures_;
 }
 
 void DrawListScope::Targets(DXGI_FORMAT rt_format, DXGI_FORMAT ds_format)
