@@ -4,5 +4,4 @@
 	branch = master
 [submodule "reshade_addon/sdk"]
 	path = reshade_addon/sdk
-	url = https://github.com/QAQ-Revival/reshade.git
-	branch = wwmi-dx12-sdk
+	url = https://github.com/crosire/reshade
