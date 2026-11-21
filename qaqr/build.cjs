@@ -51,8 +51,12 @@ function packageFiles(version) {
 // QAQR numbers its build <upstream version>.<n>, n counting QAQR's own commits on top of that upstream release.
 function qaqrVersion() {
   const upstream = fs.readFileSync(path.join(root, 'VERSION'), 'utf8').trim();
+  // A CI checkout has no upstream remote and a local one may be stale, so the branch is fetched here.
+  // Offline the last fetch serves, and without one the release tag.
+  const changes = JSON.parse(fs.readFileSync(path.join(__dirname, 'changes.json'), 'utf8'));
+  spawnSync('git', ['-c', 'credential.helper=', 'fetch', '--quiet', '--no-tags', '--no-recurse-submodules', `https://github.com/${changes.upstream}.git`, '+refs/heads/main:refs/remotes/upstream/main'], { cwd: root, windowsHide: true });
   let base = `v${upstream}`;
-  try { base = git(['merge-base', 'HEAD', 'refs/remotes/upstream/main']); } catch { /* no upstream remote in this checkout: the release tag */ }
+  try { base = git(['merge-base', 'HEAD', 'refs/remotes/upstream/main']); } catch { /* never fetched */ }
   return `${upstream}.${git(['rev-list', '--count', '--no-merges', '--author=qaq-revival-publisher', `${base}..HEAD`])}`;
 }
 function build({ output = path.join(root, 'build_addon/component'), verifyOnly = false } = {}) {
