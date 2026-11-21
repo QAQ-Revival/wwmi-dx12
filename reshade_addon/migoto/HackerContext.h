@@ -10,6 +10,7 @@ DEFINE_GUID(IID_HackerContext,
 
 class HackerDevice;
 class HackerInputLayout;
+struct InitialTexturesSnapshot;
 
 class HackerContext {
 public:
@@ -44,8 +45,7 @@ public:
     unsigned dispatch_number = 0;
     unsigned GetDrawNumber() const { return draw_number; }
     unsigned GetDispatchNumber() const { return dispatch_number; }
-    unsigned GetCallNumber() const { return draw_number + dispatch_number; }
-    InitialTexturesSnapshot& GetInitialTexturesSnapshot();
+    unsigned GetCallNumber() const;
     void     ResetCallCounters()
     {
         initial_textures.Clear();
@@ -53,10 +53,10 @@ public:
         dispatch_number = 0;
     }
 
-    ID3D11Buffer* GetReadbackBuffer(UINT /*size*/) { return nullptr; }
+    InitialTexturesSnapshot& GetInitialTexturesSnapshot();
+    HRESULT ComputeDHash(ID3D11Texture2D* texture, UINT mipLevel, DXGI_FORMAT srvFormat, uint64_t& outHash);
 
-    // The DX11 engine hashes texture content with a D3D11 compute pass; the DX12 bridge has none, so DHash is off.
-    HRESULT ComputeDHash(ID3D11Texture2D* /*texture*/, UINT /*mipLevel*/, DXGI_FORMAT /*srvFormat*/, uint64_t& /*outHash*/) { return E_NOTIMPL; }
+    ID3D11Buffer* GetReadbackBuffer(UINT /*size*/) { return nullptr; }
 
     unsigned long long mDrawPipeline = 0;
     HackerInputLayout* mOverrideInputLayout = nullptr;
