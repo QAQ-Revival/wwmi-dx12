@@ -274,7 +274,7 @@ void DeferTexture(CustomResource* r)
     if (r->override_bind_flags != CustomResourceBindFlags::INVALID) bind = (D3D11_BIND_FLAG)r->override_bind_flags;
     D3D11_RESOURCE_MISC_FLAG misc = r->misc_flags;
     if (r->override_misc_flags != ResourceMiscFlags::INVALID) misc = (D3D11_RESOURCE_MISC_FLAG)r->override_misc_flags;
-    if (!sink({ n->second, fn, (unsigned)bind, (unsigned)misc, r->override_color_space == CustomColorSpace::SRGB },
+    if (!sink({ n->second, fn, (unsigned)bind, (unsigned)misc, r->override_color_space },
             g_defer_user.load(std::memory_order_acquire)))
         return;
     r->substantiated = true; // Substantiate's first act, so the draw loads nothing itself
@@ -316,7 +316,7 @@ void LoadDeferredNow(CustomResource* r)
     g_deferred_pending.erase(it);
     if (!g_loaded || !this_load || r->resource || r->view) return;
     ID3D11Resource* res = LoadDeferredTexture({ std::wstring(), r->filename, (unsigned)r->bind_flags,
-        (unsigned)r->misc_flags, r->override_color_space == CustomColorSpace::SRGB });
+        (unsigned)r->misc_flags, r->override_color_space });
     if (!res) return;
     r->resource = res;
     r->device = g_dev.GetPassThroughOrigDevice1();
@@ -333,13 +333,14 @@ ID3D11Resource* LoadDeferredTexture(const DeferredTexture& t)
 {
     EnsureCOM();
     ID3D11Resource* res = nullptr;
+    const auto flags = static_cast<DirectX::DDS_LOADER_FLAGS>(t.color_space);
     HRESULT hr = DirectX::CreateDDSTextureFromFileEx(g_dev.GetPassThroughOrigDevice1(), t.filename.c_str(), t.maxsize,
-        D3D11_USAGE_DEFAULT, t.bind_flags, 0, t.misc_flags, t.force_srgb, &res, nullptr, nullptr);
+        D3D11_USAGE_DEFAULT, t.bind_flags, 0, t.misc_flags, flags, &res, nullptr, nullptr);
     if (FAILED(hr) && t.maxsize) {
         logger::write("PORT: %ls did not load at %u px or less (0x%08x) -- loaded in full", t.filename.c_str(),
             t.maxsize, (unsigned)hr);
         hr = DirectX::CreateDDSTextureFromFileEx(g_dev.GetPassThroughOrigDevice1(), t.filename.c_str(), 0,
-            D3D11_USAGE_DEFAULT, t.bind_flags, 0, t.misc_flags, t.force_srgb, &res, nullptr, nullptr);
+            D3D11_USAGE_DEFAULT, t.bind_flags, 0, t.misc_flags, flags, &res, nullptr, nullptr);
     }
     if (FAILED(hr))
         logger::write("PORT: failed to load custom texture resource %ls: 0x%08x", t.filename.c_str(), (unsigned)hr);
@@ -390,7 +391,7 @@ static void LoadedTexturesWithPrefix(const std::wstring& prefix, std::vector<Loa
         if (!wr || !wr->dx12 || wr->dim != D3D11_RESOURCE_DIMENSION_TEXTURE2D) continue;
         r.resource->AddRef();
         out.push_back({ { *fq, r.filename, (unsigned)r.bind_flags, (unsigned)r.misc_flags,
-                            r.override_color_space == CustomColorSpace::SRGB },
+                            r.override_color_space },
             r.resource, wr->dx12 });
     }
 }

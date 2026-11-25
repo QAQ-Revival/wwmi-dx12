@@ -21,8 +21,10 @@
     <WwmiPackageFile Include="$(WwmiRoot)third_party\3Dmigoto\COPYING.txt" To="wwmi_dx12\licenses\3Dmigoto-COPYING.txt" />
     <WwmiPackageFile Include="$(WwmiRoot)third_party\3Dmigoto\LICENSE.GPL.txt" To="wwmi_dx12\licenses\3Dmigoto-LICENSE.GPL.txt" />
     <WwmiPackageFile Include="$(WwmiRoot)third_party\3Dmigoto\AUTHORS.txt" To="wwmi_dx12\licenses\3Dmigoto-AUTHORS.txt" />
-    <WwmiPackageFile Include="$(WwmiRoot)third_party\3Dmigoto\pcre2-10.30\LICENCE" To="wwmi_dx12\licenses\PCRE2-LICENCE.txt" />
-    <WwmiPackageFile Include="$(WwmiRoot)third_party\3Dmigoto\DirectXTK\LICENSE" To="wwmi_dx12\licenses\DirectXTK-LICENSE.txt" />
+    <WwmiPackageFile Include="$(WwmiRoot)third_party\3Dmigoto\ThirdPartyLibs\pcre2-lib\x64-windows-static\share\pcre2\copyright" To="wwmi_dx12\licenses\PCRE2-LICENCE.txt" />
+    <WwmiPackageFile Include="$(WwmiRoot)third_party\3Dmigoto\ThirdPartyLibs\DirectXTK-lib\x64-windows-static\share\directxtk\copyright" To="wwmi_dx12\licenses\DirectXTK-LICENSE.txt" />
+    <WwmiPackageFile Include="$(WwmiRoot)third_party\3Dmigoto\ThirdPartyLibs\DirectXTex-lib\x64-windows-static\share\directxtex\copyright" To="wwmi_dx12\licenses\DirectXTex-LICENSE.txt" />
+    <WwmiPackageFile Include="$(WwmiRoot)third_party\3Dmigoto\ThirdPartyLibs\DirectXTK-lib\x64-windows-static\share\directxmath\copyright" To="wwmi_dx12\licenses\DirectXMath-LICENSE.txt" />
     <WwmiPackageFile Include="$(WwmiRoot)reshade_addon\sdk\LICENSE.md" To="wwmi_dx12\licenses\ReShade-LICENSE.md" />
     <WwmiPackageFile Include="$(WwmiRoot)reshade_addon\sdk\deps\imgui\LICENSE.txt" To="wwmi_dx12\licenses\imgui-LICENSE.txt" />
     <WwmiPackageFile Include="$(WwmiRoot)package\licenses\crc32c-LICENSE.txt" To="wwmi_dx12\licenses\crc32c-LICENSE.txt" />

@@ -53,7 +53,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)wwmi_dx12.map</MapFileName>
-      <AdditionalDependencies>user32.lib;gdi32.lib;ole32.lib;advapi32.lib;d3d12.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;xinput.lib;dbghelp.lib;shlwapi.lib;psapi.lib;$(WwmiRefDir)\pcre2\pcre2-8-64.lib;$(WwmiRefDir)\Nektra\NktHookLib64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>user32.lib;gdi32.lib;ole32.lib;advapi32.lib;d3d12.lib;d3d11.lib;d3dcompiler.lib;dxgi.lib;xinput.lib;dbghelp.lib;shlwapi.lib;psapi.lib;$(WwmiEngineLibs)\pcre2-lib\x64-windows-static\lib\pcre2-8.lib;$(WwmiEngineLibs)\Nektra-lib\NktHookLib64.lib;$(WwmiEngineLibs)\DirectXTK-lib\x64-windows-static\lib\DirectXTK.lib;$(WwmiEngineLibs)\DirectXTex-lib\x64-windows-static\lib\DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreLinkEvent>
       <Command>if exist "$(OutDir)wwmi_dx12.map" move /y "$(OutDir)wwmi_dx12.map" "$(OutDir)wwmi_dx12.prev.map" &gt;nul

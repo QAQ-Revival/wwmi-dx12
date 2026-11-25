@@ -54,7 +54,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ForcedIncludeFiles>$(WwmiRoot)reshade_addon\migoto\port_compat.h</ForcedIncludeFiles>
       <PreprocessorDefinitions>UNICODE;_UNICODE;_HAS_STD_BYTE=0;MIGOTO_DX=11;PCRE2_CODE_UNIT_WIDTH=8;PCRE2_STATIC;CRC32C_STATIC;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES_COUNT=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(WwmiRoot)reshade_addon\migoto;$(WwmiPristineDir);$(WwmiRefDir);$(WwmiRefDir)\HLSLDecompiler;$(WwmiRefDir)\D3D_Shaders;$(WwmiRefDir)\DirectXTK\Inc;$(WwmiRefDir)\DirectXTK\Src;$(WwmiRefDir)\crc32c-hw-1.0.5\include;$(WwmiRefDir)\pcre2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WwmiRoot)reshade_addon\migoto;$(WwmiPristineDir);$(WwmiRefDir);$(WwmiRefDir)\HLSLDecompiler;$(WwmiRefDir)\D3D_Shaders;$(WwmiEngineLibs)\DirectXTK-lib\x64-windows-static\include\directxtk;$(WwmiEngineLibs)\CRC32C;$(WwmiEngineLibs)\pcre2-lib\x64-windows-static\include;$(WwmiEngineLibs)\DirectXTex-lib\x64-windows-static\include;$(WwmiEngineLibs)\WindowsSDK\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)migoto_engine.lib</OutputFile>
@@ -73,6 +73,7 @@
       <Output TaskParameter="Lines" ItemName="WwmiPristineLine" />
     </ReadLinesFromFile>
     <Copy SkipUnchangedFiles="true" SourceFiles="$(WwmiRefDir)\%(WwmiPristineLine.Identity)" DestinationFolder="$(WwmiPristineDir)" Condition="!$([System.String]::Copy('%(WwmiPristineLine.Identity)').StartsWith('#'))" />
+    <Copy SkipUnchangedFiles="true" SourceFiles="$(WwmiRoot)reshade_addon\migoto\ReShadeRuntime.hpp" DestinationFolder="$(WwmiPristineDir)" />
     <Exec Command="git -C &quot;$(WwmiRefDir)&quot; describe --tags --match v[0-9]* --abbrev=0" ConsoleToMSBuild="true" StandardOutputImportance="low" StandardErrorImportance="low" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true">
       <Output TaskParameter="ConsoleOutput" PropertyName="WwmiRefTag" />
     </Exec>
@@ -179,37 +180,17 @@
   </ItemGroup>
 
   <ItemGroup Label="Third party -- compiled WITHOUT the forced include and the migoto defines">
-    <ClCompile Include="$(WwmiRefDir)\DirectXTK\Src\DDSTextureLoader.cpp">
+    <ClCompile Include="$(WwmiEngineLibs)\CRC32C\crc32c.cpp">
       <ForcedIncludeFiles />
       <PreprocessorDefinitions>UNICODE;_UNICODE;_HAS_STD_BYTE=0;CRC32C_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(WwmiRefDir)\DirectXTK\Inc;$(WwmiRefDir)\DirectXTK\Src;$(WwmiRefDir)\crc32c-hw-1.0.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-      <ObjectFileName>$(IntDir)tp_DDSTextureLoader.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="$(WwmiRefDir)\DirectXTK\Src\WICTextureLoader.cpp">
-      <ForcedIncludeFiles />
-      <PreprocessorDefinitions>UNICODE;_UNICODE;_HAS_STD_BYTE=0;CRC32C_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(WwmiRefDir)\DirectXTK\Inc;$(WwmiRefDir)\DirectXTK\Src;$(WwmiRefDir)\crc32c-hw-1.0.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-      <ObjectFileName>$(IntDir)tp_WICTextureLoader.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="$(WwmiRefDir)\DirectXTK\Src\ScreenGrab.cpp">
-      <ForcedIncludeFiles />
-      <PreprocessorDefinitions>UNICODE;_UNICODE;_HAS_STD_BYTE=0;CRC32C_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(WwmiRefDir)\DirectXTK\Inc;$(WwmiRefDir)\DirectXTK\Src;$(WwmiRefDir)\crc32c-hw-1.0.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
-      <ObjectFileName>$(IntDir)tp_ScreenGrab.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="$(WwmiRefDir)\crc32c-hw-1.0.5\src\crc32c.cpp">
-      <ForcedIncludeFiles />
-      <PreprocessorDefinitions>UNICODE;_UNICODE;_HAS_STD_BYTE=0;CRC32C_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(WwmiRefDir)\DirectXTK\Inc;$(WwmiRefDir)\DirectXTK\Src;$(WwmiRefDir)\crc32c-hw-1.0.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(WwmiEngineLibs)\DirectXTK-lib\x64-windows-static\include\directxtk;$(WwmiEngineLibs)\CRC32C;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <ObjectFileName>$(IntDir)tp_crc32c.obj</ObjectFileName>
     </ClCompile>
   </ItemGroup>
 
   <ItemGroup Label="Headers -- listed so they are browsable and searchable in Solution Explorer">
+    <ClInclude Include="reshade_addon\migoto\ReShadeRuntime.hpp" />
     <ClInclude Include="reshade_addon\migoto\dx12_context.h" />
     <ClInclude Include="reshade_addon\migoto\dx12_bridge.h" />
     <ClInclude Include="reshade_addon\migoto\prof_core.h" />

@@ -4,6 +4,7 @@
     <WwmiRoot Condition="'$(WwmiRoot)' == ''">$(MSBuildThisFileDirectory)</WwmiRoot>
 
     <WwmiRefDir Condition="'$(WwmiRefDir)' == ''">$(WwmiRoot)third_party\3Dmigoto</WwmiRefDir>
+    <WwmiEngineLibs>$(WwmiRefDir)\ThirdPartyLibs</WwmiEngineLibs>
     <WwmiPristineDir Condition="'$(WwmiPristineDir)' == ''">$(WwmiRoot)build_addon\3dm_src</WwmiPristineDir>
 
     <WwmiDeploy Condition="'$(WwmiDeploy)' == '' and !Exists('$(WwmiRoot)deploy.ps1')">false</WwmiDeploy>

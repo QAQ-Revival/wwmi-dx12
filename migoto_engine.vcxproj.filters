@@ -4,17 +4,8 @@
     <Filter Include="$(WwmiRefDir)">
       <UniqueIdentifier>{7dff58aa-e7d4-5f70-954a-c3eb1a72a71a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="$(WwmiRefDir)\crc32c-hw-1.0.5">
+    <Filter Include="$(WwmiEngineLibs)\CRC32C">
       <UniqueIdentifier>{3d81fd60-5666-5ca4-b89f-dc01fba35600}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="$(WwmiRefDir)\crc32c-hw-1.0.5\src">
-      <UniqueIdentifier>{b2cf9fb4-e139-5298-9f17-2f2e56992e43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="$(WwmiRefDir)\DirectXTK">
-      <UniqueIdentifier>{88c6bb48-f447-5989-a05f-17f2e2cad027}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="$(WwmiRefDir)\DirectXTK\Src">
-      <UniqueIdentifier>{6d554462-8133-5e2d-bd76-acb9f70f39fb}</UniqueIdentifier>
     </Filter>
     <Filter Include="3Dmigoto (unmodified)">
       <UniqueIdentifier>{d6272efc-d2de-536e-9d02-8371e78e4512}</UniqueIdentifier>
@@ -144,20 +135,14 @@
     <ClCompile Include="reshade_addon\migoto\frame_analysis_driver.cpp">
       <Filter>migoto</Filter>
     </ClCompile>
-    <ClCompile Include="$(WwmiRefDir)\DirectXTK\Src\DDSTextureLoader.cpp">
-      <Filter>$(WwmiRefDir)\DirectXTK\Src</Filter>
-    </ClCompile>
-    <ClCompile Include="$(WwmiRefDir)\DirectXTK\Src\WICTextureLoader.cpp">
-      <Filter>$(WwmiRefDir)\DirectXTK\Src</Filter>
-    </ClCompile>
-    <ClCompile Include="$(WwmiRefDir)\DirectXTK\Src\ScreenGrab.cpp">
-      <Filter>$(WwmiRefDir)\DirectXTK\Src</Filter>
-    </ClCompile>
-    <ClCompile Include="$(WwmiRefDir)\crc32c-hw-1.0.5\src\crc32c.cpp">
-      <Filter>$(WwmiRefDir)\crc32c-hw-1.0.5\src</Filter>
+    <ClCompile Include="$(WwmiEngineLibs)\CRC32C\crc32c.cpp">
+      <Filter>$(WwmiEngineLibs)\CRC32C</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="reshade_addon\migoto\ReShadeRuntime.hpp">
+      <Filter>migoto</Filter>
+    </ClInclude>
     <ClInclude Include="reshade_addon\migoto\dx12_context.h">
       <Filter>migoto</Filter>
     </ClInclude>

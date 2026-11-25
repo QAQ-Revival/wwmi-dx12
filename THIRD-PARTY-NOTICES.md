@@ -6,9 +6,9 @@ wwmi-dx12 is licensed under GPL-3.0 (`LICENSE`). It contains or links the follow
 |---|---|---|
 | 3Dmigoto, XXMI fork (github.com/SpectrumQT/3Dmigoto), compiled into the add-on | GPL-3.0 | `third_party/3Dmigoto/COPYING.txt`, `AUTHORS.txt`, `LICENSE.GPL.txt` |
 | Nektra Deviare-InProcess (via 3Dmigoto) | GPL-3.0 | `third_party/3Dmigoto/COPYING.txt` |
-| PCRE2 10.30 (via 3Dmigoto) | BSD (PCRE2 licence) | `third_party/3Dmigoto/pcre2-10.30/LICENCE` |
-| DirectXTK, three source files (via 3Dmigoto) | MIT, (c) Microsoft Corporation | `third_party/3Dmigoto/DirectXTK/LICENSE` |
-| crc32c-hw 1.0.5 (via 3Dmigoto) | zlib | header of `third_party/3Dmigoto/crc32c-hw-1.0.5/src/crc32c.cpp` |
+| PCRE2 (via 3Dmigoto) | BSD (PCRE2 licence) | `wwmi_dx12/licenses/PCRE2-LICENCE.txt` |
+| DirectXTK, DirectXTex and DirectXMath (via 3Dmigoto) | MIT, (c) Microsoft Corporation | `wwmi_dx12/licenses/DirectXTK-LICENSE.txt`, `DirectXTex-LICENSE.txt`, `DirectXMath-LICENSE.txt` |
+| crc32c-hw (via 3Dmigoto) | zlib | header of `third_party/3Dmigoto/ThirdPartyLibs/CRC32C/crc32c.cpp` |
 | ReShade add-on SDK headers | BSD-3-Clause, (c) Patrick Mours | `reshade_addon/sdk/LICENSE.md` |
 | Dear ImGui headers | MIT, (c) Omar Cornut | `reshade_addon/sdk/deps/imgui/LICENSE.txt` |
 | bcdec | MIT or Unlicense | end of `third_party/bcdec/bcdec.h` |

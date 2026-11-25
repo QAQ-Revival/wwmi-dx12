@@ -12,6 +12,7 @@
 #include <vector>
 
 class FrameAnalysisContext;
+enum class CustomColorSpace;
 struct InitialTexturesSnapshot;
 struct ID3D11Resource;
 namespace MigotoPort {
@@ -317,7 +318,7 @@ struct DeferredTexture {
     std::wstring filename;
     unsigned bind_flags;
     unsigned misc_flags;
-    bool force_srgb;
+    CustomColorSpace color_space;
     unsigned maxsize = 0; // the loader's: mips larger than this are skipped; 0 = all
 };
 // The first time a draw's slot asks for a .dds [Resource] not yet loaded, `sink` is offered it, on the drawing thread
